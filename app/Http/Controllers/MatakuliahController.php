@@ -11,20 +11,45 @@ class MatakuliahController extends Controller
 {
     public function awal()
 	{
-		return "Hai! Greetings from MatakuliahController !";
+		return view('matakuliah.awal', ['data'=>Matakuliah::all()]);
 	}
 
 	public function tambah()
 	{
-		return $this->simpan();
+		return view('matakuliah.tambah');
 	}
 
-	public function simpan()
+	public function simpan(Requests $input)
 	{
 		$matakuliah = new Matakuliah();
-		$matakuliah->title='Pemrograman Berbasis Objek';
-    	$matakuliah->keterangan='Matakuliah Wajib';
-		$matakuliah->save();
-		return "Data dengan username {$matakuliah->title} telah disimpan.";
+		$matakuliah->username = $input->username;
+		$matakuliah->password = $input->password;
+		$informasi = @matakuliah->save() ? 'Berhasil simpan data' : 'Gagal simpan data' : return redirect('matakuliah')->with(['informasi'=>$informasi]);
+	}
+
+	public function edit($id)
+	{
+		$matakuliah = Matakuliah::find($id);
+		return view('matakuliah.edit')->with(array('matakuliah'=>$matakuliah));
+	}
+
+	public function lihat($id)
+	{
+		$matakuliah = Matakuliah::find($id);
+		return view('matakuliah.lihat')->with(array('matakuliah'=>$matakuliah));
+	}
+
+	public function update($id, Requests $input)
+	{
+		$matakuliah = Matakuliah::find($id);
+		$matakuliah->username = $input->username;
+		$matakuliah->password = $input->password;
+		$informasi = $matakuliah->save() ? 'Berhasil update data' : 'Gagal update data' : return redirect('matakuliah')->with(['informasi'=>$informasi]);
+	}
+
+	public function hapus($id)
+	{
+		$matakuliah = Matakuliah::find($id);
+		$informasi = $matakuliah->delete() ? 'Berhasil hapus data' : 'Gagal hapus data' : return redirect('matakuliah')->with(['informasi'=>$informasi]);
 	}
 }
