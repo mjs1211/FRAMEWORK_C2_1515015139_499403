@@ -14,6 +14,19 @@ class Mahasiswa extends Model
     }
 
     public function JadwalMatakuliah(){
-		return this->hasMany(JadwalMatakuliah::class);
+		return $this->hasMany(JadwalMatakuliah::class);
 	}
+
+    public function ListMahasiswaDanNim()
+    {
+    	$out = [];
+    	foreach ($this ->all() as $mhs) {
+    		$out[$mhs->id] = "{$mhs->nama} ({$mhs->nim})";
+    	}
+    	return $out;
+    }
+
+    public function getUsernameAttribute(){
+    	return $this->pengguna->username;
+    }
 }

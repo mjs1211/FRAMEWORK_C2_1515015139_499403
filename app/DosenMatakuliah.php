@@ -20,4 +20,25 @@ class DosenMatakuliah extends Model
 	public function Matakuliah(){
 		return this->belongsTo(Matakuliah::class);
 	}
+
+	public function listDosenDanMatakuliah()
+    {
+    	$out = [];
+    	foreach ($this ->all() as $dsnMtk) {
+    		$out[$dsnMtk->id] = "{$dsnMtk->dosen->nama} (Matakuliah {$dsnMtk->matakuliah->title})";
+    	}
+    	return $out;
+    }
+
+    public function getNamaDosenAttribute(){
+        return $this->dosen->nama;
+    }
+
+    public function getNipDosenAttribute(){
+        return $this->dosen->nim();
+    }
+
+    public function getTitleMatakuliahAtribute(){
+        return $this->matakuliah->title;
+    }
 }

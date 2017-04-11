@@ -17,6 +17,14 @@ class Dosen extends Model
     	return $this->hasMany(DosenMatakuliah::class);
     }
 
+    public function listDosenDanNip()
+    {
+        $out = [];
+        foreach ($this ->all() as $dsn) {
+            $out[$dsn->id] = "{$dsn->nama} ({$dsn->nip})";
+        }
+        return $out;
+
     public function getUsernameAttribute(){
     	return $this->pengguna->username;
     }
